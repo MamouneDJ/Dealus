@@ -1,0 +1,54 @@
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="title">Titre de l'annonce :</label>
+    <input type="text" id="title" name="title" required>
+    <br>
+    <label for="fixed_price">Prix fixe :</label>
+    <input type="number" id="fixed_price" name="fixed_price">
+    <br>
+    <label for="min_price">Prix minimum :</label>
+    <input type="number" id="min_price" name="min_price">
+    <br>
+    <label for="max_price">Prix maximum :</label>
+    <input type="number" id="max_price" name="max_price">
+    <br>
+    <label for="description">Description :</label>
+    <textarea id="description" name="description" required></textarea>
+    <br>
+    <input type="radio" id="gratuit" name="abonnement" value="gratuit">
+    <label for="gratuit">Gratuit (0 jetons)</label>
+    <input type="radio" id="vip" name="abonnement" value="vip">
+    <label for="vip">VIP (500 jetons)</label>
+    <br>
+    <input id='position' name='position' placeholder='Lattitude,Longitude'>
+    <button type='button' onclick="getLocation()">Choisir mon actuel position</button>
+
+    <br>
+    <input type="submit" value="Envoyer">
+</form>
+
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(savePosition);
+        } else {
+            alert("La géolocalisation n'est pas supportée par votre navigateur.");
+        }
+    }
+
+    function savePosition(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        
+        // Afficher les coordonnées dans un élément avec l'id "coordinates"
+        document.getElementById("position").value = latitude + ", " + longitude;
+    }
+</script>
+
+
+
+
+
+
+

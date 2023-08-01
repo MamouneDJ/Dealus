@@ -1,0 +1,14 @@
+<!-- Dans le fichier templates/annonce_detail.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Détails de l'annonce</title>
+</head>
+<body>
+    <h1>{{ annonce.titre }}</h1>
+    <p>{{ annonce.description }}</p>
+    <!-- Ajoutez ici d'autres informations spécifiques à votre annonce, comme le prix, les images, etc. -->
+    <a href="{% url 'home' %}">Retour à l'accueil</a>
+</body>
+</html>
