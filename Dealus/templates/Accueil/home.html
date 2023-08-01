@@ -49,7 +49,7 @@
         <div class="leTrucNoir">
             <h2 class="prix fixe">{{ ad.fixed_price }} <strong>FCFA</strong></h2>
             <h2 class="intervalle de prix">{{ ad.min_price }}/{{ ad.max_price }} <strong>FCFA</strong></h2>
-            <a href="{% url 'annonce_detail' ad.id %}">Voir le produit</a>
+            <a href="{% url 'annonce_detail' slug=ad.slug %}">Voir le produit</a>
         </div>
     </div>
     {% endfor %}

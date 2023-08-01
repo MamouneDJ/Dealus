@@ -2,9 +2,11 @@ from django.shortcuts import render,redirect,get_object_or_404
 from Annonce.models import Annonce
 from django.http import HttpResponse
 # Create your views here.
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def createAnnonce(request):
     if request.method == 'POST':
-        print('here')
         title = request.POST.get('title')
         owner= request.user
         fixed_p = request.POST.get('fixed_price')
@@ -14,9 +16,7 @@ def createAnnonce(request):
         abonnement = request.POST.get('abonnement')
         position = request.POST.get('position')
         is_vip = False
-        print('ici')
         coord = position.split(',')
-        print(coord)
         if abonnement == 'vip':
             if owner.jetons - 500 >= 0:
                 is_vip = True
@@ -32,6 +32,6 @@ def createAnnonce(request):
         annonce.save()
         return redirect('home')
     return render(request, 'Annonce/post_annonce.html')
-def annonce_detail(request, annonce_id):
-    annonce = get_object_or_404(Annonce, id=annonce_id)
+def annonce_detail(request, slug):
+    annonce = get_object_or_404(Annonce, slug=slug)
     return render(request, 'Annonce/annonce_detail.html', {'annonce': annonce})

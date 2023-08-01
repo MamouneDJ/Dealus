@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from Utilisateur.models import CustomUser
 from django.urls import reverse
 
@@ -13,15 +14,21 @@ class Annonce(models.Model):
     fixed_price = models.DecimalField(max_digits=10, decimal_places=0, null=True, blank=True,default=0)
     min_price = models.DecimalField(max_digits=10, decimal_places=0, null=True, blank=True,default=0)
     max_price = models.DecimalField(max_digits=10, decimal_places=0, null=True, blank=True,default=0)
+    slug = models.SlugField(unique=True, max_length=200)
     """"analystic"""
     date_ads_posted = models.DateTimeField(auto_now_add=True)
     click_count = models.PositiveIntegerField(default=0)
     clicks_timestamp = models.DateTimeField(blank=True, null=True, default=None)
     is_favorites = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
-
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('annonce_detail', args=[str(self.id)])
+        return reverse('annonce_detail', args=[str(self.slug)])
+
     def __str__(self):
         return self.title
