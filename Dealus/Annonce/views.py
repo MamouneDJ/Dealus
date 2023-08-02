@@ -16,7 +16,6 @@ def createAnnonce(request):
         abonnement = request.POST.get('abonnement')
         position = request.POST.get('position')
         is_vip = False
-        coord = position.split(',')
         if abonnement == 'vip':
             if owner.jetons - 500 >= 0:
                 is_vip = True
@@ -35,3 +34,31 @@ def createAnnonce(request):
 def annonce_detail(request, slug):
     annonce = get_object_or_404(Annonce, slug=slug)
     return render(request, 'Annonce/annonce_detail.html', {'annonce': annonce})
+@login_required
+def user_ads(request):
+    user_ads = request.user.annonce.all().order_by('-date_ads_posted')
+    return render(request,'Annonce/user_ads.html',context={'user_ads':user_ads})
+def edit_annonce(request,slug):
+    annonce = get_object_or_404(Annonce, slug=slug)
+    context = {'annonce':annonce,
+               'position': str(annonce.latitude) + ',' + str(annonce.longitude)
+               }
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        fixed_p = request.POST.get('fixed_price')
+        min_p = request.POST.get('min_price')
+        max_p = request.POST.get('max_price')
+        description = request.POST.get('description')
+        position = request.POST.get('position')
+        annonce.title = title
+        annonce.fixed_price = fixed_p
+        annonce.min_price = min_p
+        annonce.max_price = max_p
+        annonce.description = description
+        coord = position.split(',')
+        annonce.latitude = coord[0]
+        annonce.longitude = coord[1]
+        annonce.save()
+        return redirect('home')
+    
+    return render(request,'Annonce/edit_annonce.html',context)

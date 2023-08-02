@@ -1,0 +1,14 @@
+<div class="user_ads">
+    {% for ad in user_ads %}
+    <div class="cartefree">
+        <div class="leTrucBlanc">
+            <h2 class="titre">{{ ad.title }}</h2>
+        </div>
+        <div class="leTrucNoir">
+            <h2 class="prix fixe">{{ ad.fixed_price }} <strong>FCFA</strong></h2>
+            <h2 class="intervalle de prix">{{ ad.min_price }}/{{ ad.max_price }} <strong>FCFA</strong></h2>
+        </div>
+        <a href="{% url 'edit_annonce' slug=ad.slug %}">Modifier</a>
+    </div>
+    {% endfor %}
+</div>

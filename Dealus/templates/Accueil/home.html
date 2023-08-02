@@ -6,40 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        
         {% if user.is_authenticated %}
-        <p>Connecté</p>
         <a href="{% url 'logout' %}">Se deconnecter</a>
+        <a href="{% url 'user_ads' %}">Mes annonce</a>
         <a href="{% url 'post' %}">Poster une annonce</a>
         {% else %}
         <a href="{% url 'signup' %}">S'inscrire</a>/<a href="{% url 'login' %}">Se connecter</a>
         {% endif %}
-
-        <div class="vip_ads">
-        {% for ad in vip_ads %}
-    <div class="cartefree cartvip">
-        <div class="leTrucBlanc leTrucBlanc_vip">
-            <h2 class="titre">{{ ad.title }}</h2>
-        {% if ad.image %}
-            <div class="image" style="background-image:url('{{ ad.image.url}}');"></div>
-
-        {% else %}
-            <div class="image"></div>
-
-        {% endif %}
-        </div>
-        <div class="leTrucNoir">
-        {% if ad.fixed_price %}
-            <h2 class="prix">{{ ad.fixed_price }} <strong>FCFA</strong></h2>
-        {% else %}
-            <h2 class="prix">{{ ad.min_price }}/{{ ad.max_price }} <strong>FCFA</strong></h2>
-        {% endif %}
-        <button class="voirplus"><a href="{% url 'detail' slug=ad.slug %}" class="voirplus_link">Voir    <i class="fa-solid fa-eye"></i></a></button>
-
-        </div>
-    </div>
-    {% endfor %}
-</div>
 <div class="all_ads">
     {% for ad in allads %}
     <div class="cartefree">
